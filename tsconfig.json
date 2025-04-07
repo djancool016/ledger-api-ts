@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "ES2017",
+      "module": "CommonJS",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "node",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+    },
+    "include": ["src", "src/knexfile.ts"],
+    "exclude": ["node_modules"]
+}

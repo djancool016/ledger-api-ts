@@ -1,0 +1,45 @@
+{
+    "name": "ledger-api-ts",
+    "version": "1.0.0",
+    "description": "Double-entry bookkeeping API for managing ledgers and financial transactions.",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "migration-test": "cross-env NODE_ENV=test npx knex migrate:latest --knexfile ./src/knexfile.ts",
+        "seed-test": "cross-env NODE_ENV=test npx knex seed:run --knexfile ./src/knexfile.ts",
+        "setup-test": "npm run migration-test && npm run seed-test",
+        "migration-dev": "cross-env NODE_ENV=development npx knex migrate:latest --knexfile ./src/knexfile.ts",
+        "seed-dev": "cross-env NODE_ENV=development npx knex seed:run --knexfile ./src/knexfile.ts",
+        "setup-dev": "npm run migration-dev && npm run seed-dev",
+        "test": "npm run setup-test && cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
+        "start-test": "npm run setup-test && cross-env NODE_ENV=test node dist/index.js"
+    },
+    "keywords": [],
+    "author": "DwiJ",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/cookie-parser": "^1.4.8",
+        "@types/dotenv": "^6.1.1",
+        "@types/express": "^5.0.0",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.10.7",
+        "@types/pg": "^8.11.10",
+        "cross-env": "^7.0.3",
+        "jest": "^29.7.0",
+        "sqlite3": "^5.1.7",
+        "ts-jest": "^29.2.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "cookie-parser": "^1.4.7",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "inversify": "^7.1.0",
+        "knex": "^3.1.0",
+        "pg": "^8.13.1",
+        "reflect-metadata": "^0.2.2",
+        "zod": "^3.24.1"
+    }
+}
