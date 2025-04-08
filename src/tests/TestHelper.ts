@@ -48,8 +48,10 @@ export function TestHelper({ describeText, success, error }: TestCases) {
 
                     if (status !== undefined && result?.status !== undefined) {
                         expect(result.status).toBe(status);
+                        if(expectedOutput) expect(result.body).toEqual(expectedOutput);
+                        return;
                     }
-
+                
                     if (expectedOutput instanceof Error) {
                         throw new Error("Expected error to be thrown, but got result");
                     } else if (expectedOutput === null) {
