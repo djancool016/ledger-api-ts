@@ -22,14 +22,15 @@ describe('AccountApi', () => {
                 .post('/api/account')
                 .send({ description: "Test Account" }),
             status: 201,
-            output: () => ({ id: expect.any(Number), message: expect.any(String) }) // supertest puts this in `res.body`
+            output: () => ({ id: expect.any(Number), message: expect.stringContaining('success') }) // supertest puts this in `res.body`
         }],
         error: [{
             label: "Should fail with 400 on missing description",
             method: () => request(app)
-                .post('/api/accounts')
+                .post('/api/account')
                 .send({}),
-            status: 400
+            status: 400,
+            output: () => ({message: expect.stringContaining('is required')})
         }]
     });
 })
