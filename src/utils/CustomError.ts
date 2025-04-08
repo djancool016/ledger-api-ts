@@ -37,7 +37,7 @@ export class NotFoundError extends AppError {
 }
 
 export class DuplicateError extends AppError {
-    constructor(message: string = "Duplicate Error, data already exist") {
+    constructor(message: string = "Data already exist") {
         super(message, 409);
     }
 }
@@ -78,6 +78,7 @@ function handleSqliteError(error: any): never {
                 throw new DuplicateError();
             }
             throw new BadRequestError();
+        case "SQLITE_ERROR":
         case "SQLITE_MISMATCH": // Data type mismatch
             throw new BadRequestError();
         default:

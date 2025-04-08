@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router()
 
-// router.use('/', require('./reoute_file'))
+router.use('/account', require('./ControllerRoute'))
 
 module.exports = router
