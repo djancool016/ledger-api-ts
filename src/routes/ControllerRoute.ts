@@ -9,7 +9,7 @@ const controller = container.get<IAccountController>("IAccountController")
 
 router.post('/', validate(accountValidator.create), controller.create.bind(controller))
 router.get('/', controller.readAll.bind(controller))
-router.put('/',  validate(accountValidator.update), controller.update.bind(controller))
-router.delete('/', controller.delete.bind(controller))
+router.put('/:id',  validate(accountValidator.update), controller.update.bind(controller))
+router.delete('/:id', controller.delete.bind(controller))
 
 module.exports = router
