@@ -3,7 +3,7 @@ import { container } from "../../inversify.config";
 import { IAccount } from "../../models/IAccount"
 import { ICrudRepo } from "../../repositories/ICrudRepo";
 import { BadRequestError, DuplicateError, NotFoundError } from "../../utils/CustomError";
-import { TestHelper } from "../TestHelper";
+import { UnitTestHelper } from "../UnitTestHelper";
 
 describe('AccountRepo', () => {
     let repo: ICrudRepo<IAccount>;
@@ -18,77 +18,75 @@ describe('AccountRepo', () => {
     afterAll(async() => {
         await db.destroy()
     })
-
     beforeEach(() => {
         sampleData = {
             description: "Testing account repo"
-        }
+        };
     })
 
-    TestHelper({
-        describeText: 'create',
-        success: [{
-            method: async () => {
-                const id = await repo.create(sampleData)
-                return repo.readById(id)
-            }, 
-            output: () => expect.objectContaining(sampleData)
-        }],
-        error: [{
+    UnitTestHelper('create', [
+        {
+            label:"Should success and returning user id",
+            method: () => repo.create(sampleData),
+            expected: expect.any(Number)
+        },{
+            label:"Should fail and throw DuplicateError on existing id",
             method: () => repo.create({...sampleData, id: 1}), 
-            output: () => new DuplicateError
+            expected: new DuplicateError
         },{
+            label:"Should fail and throw BadRequestError on unknown_column",
             method: () => repo.create({...sampleData, unknown_column: 123123} as IAccount), 
-            output: () => new BadRequestError
-        }]
-    })
-    TestHelper({
-        describeText: 'readAll',
-        success: [{
+            expected: new BadRequestError
+        }
+    ])
+    UnitTestHelper('readAll', [
+        {
+            label:"Should success and returning array of account",
             method: () => repo.readAll(),
-            output: () => expect.arrayContaining([expect.objectContaining(sampleData)])
-        }]
-    })
-    TestHelper({
-        describeText: 'readById',
-        success: [{
-            method: () => repo.readById(1), 
-            output: () => expect.objectContaining({id: 1})
-        }],
-        error: [{
-            method: () => repo.readById(999), 
-            output: () => null
-        }]
-    })
-    TestHelper({
-        describeText: 'update',
-        success: [{
-            method: async () => {
-                const id = await repo.create(sampleData)
-                return repo.update(id, sampleData)
-            }, 
-            output: () => expect.any(Number)
-        }],
-        error: [{
-            method: () => repo.update(99999, sampleData), 
-            output: () => new NotFoundError
+            expected: expect.arrayContaining([expect.objectContaining({description: expect.any(String)})])
+        }
+    ])
+    UnitTestHelper('readById', [
+        {
+            label:"Should success and returning an account",
+            method: () => repo.readById(1),
+            expected: expect.objectContaining({id: 1, description: expect.any(String)})
         },{
-            method: () => repo.update(1, {...sampleData, unknown_column: 123123} as IAccount), 
-            output: () => new BadRequestError
-        }]
-    })
-    TestHelper({
-        describeText: 'delete',
-        success: [{
+            label:"Should success and returning null",
+            method: () => repo.readById(999999),
+            expected: null
+        }
+    ])
+    UnitTestHelper('update', [
+        {
+            label:"Should success and returning id",
+            method: async () => {
+                const id = await repo.create({description: "add test account"})
+                return repo.update(id, {description: "test updating description"})
+            },
+            expected: expect.any(Number)
+        },{
+            label:"Fail should throw NotFoundError on unknown id",
+            method: () => repo.update(99454, {description: "test updating description"}),
+            expected: new NotFoundError
+        },{
+            label:"Fail should throw BadRequestError on unknown column",
+            method: () => repo.update(1, { unknown_col: "123" } as unknown as IAccount),
+            expected: new BadRequestError
+        }
+    ])
+    UnitTestHelper('delete', [
+        {
+            label:"Should success and returning deleted id",
             method: async () => {
                 const id = await repo.create({...sampleData})
                 return repo.delete(id)
-            }, 
-            output: () => expect.any(Number)
-        }],
-        error: [{
-            method: () => repo.delete(99999), 
-            output: () => new NotFoundError
-        }]
-    })
+            },
+            expected: expect.any(Number)
+        },{
+            label:"Fail should thorw NotFoundError",
+            method: () => repo.delete(999999),
+            expected: new NotFoundError
+        }
+    ])
 })
