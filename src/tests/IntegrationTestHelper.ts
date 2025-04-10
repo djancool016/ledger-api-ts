@@ -8,6 +8,7 @@ type IntegrationTestCase = {
         body?: unknown | ((body: any) => void);
         headers?: Record<string, string>;
     };
+    setup?: () => void;
 };
 
 export function IntegrationTestHelper(
@@ -15,8 +16,9 @@ export function IntegrationTestHelper(
     cases: IntegrationTestCase[],
 ) {
     describe(describeText, () => {
-        cases.forEach(({ label, method, expected }) => {
+        cases.forEach(({ label, method, expected, setup }) => {
             it(label, async () => {
+                if(setup) setup()
                 const response = await method();
                 expect(response.status).toBe(expected.status);
 

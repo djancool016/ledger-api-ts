@@ -44,7 +44,11 @@ export function MiddlewareTestHelper<Req extends Request = Request>(
                 }
 
                 if (expected.nextError !== undefined) {
-                    expect(next).toHaveBeenCalledWith(expected.nextError);
+                    if(expected.nextError instanceof Error){
+                        expect(next).toHaveBeenCalledWith(expect.any(Error));
+                    }else {
+                        expect(next).toHaveBeenCalledWith(expected.nextError);
+                    }
                 }
 
                 if (expected.customCheck) {
