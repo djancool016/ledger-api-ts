@@ -6,7 +6,7 @@ import { accountValidator } from "../zod/AccountValidator";
 import { auth } from "../middlewares/AuthMiddlewar";
 
 const router = Router()
-const controller = container.get<IAccountController>("IAccountController")
+const controller = container.get<IAccountController>("AccountController")
 
 router.post('/', auth(['admin'], []), validate(accountValidator.create), controller.create.bind(controller))
 router.get('/', controller.readAll.bind(controller))

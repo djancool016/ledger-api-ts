@@ -6,7 +6,7 @@ import { NotFoundError } from "../utils/CustomError";
 
 @injectable()
 export class AccountService implements IAccountService{
-    constructor(@inject("ICrudRepo") private accountRepo: ICrudRepo<IAccount>){}
+    constructor(@inject("AccountRepo") private accountRepo: ICrudRepo<IAccount>){}
 
     async create(data: Partial<IAccount>): Promise<number> {
         return this.accountRepo.create(data);

@@ -8,6 +8,8 @@ import { AccountService } from "./services/AccountService";
 import { IAccountController } from "./controllers/IAccountController";
 import { AccountController } from "./controllers/AccountController";
 import { IAccountService } from "./services/IAccountService";
+import { ICoa } from "./models/ICoa";
+import { CoaRepo } from "./repositories/CoaRepo";
 
 
 const container = new Container();
@@ -16,8 +18,11 @@ const container = new Container();
 container.bind<Knex>("Knex").toConstantValue(db);
 
 // Bind account related service
-container.bind<ICrudRepo<IAccount>>("ICrudRepo").to(AccountRepo);
-container.bind<IAccountService>("IAccountService").to(AccountService);
-container.bind<IAccountController>("IAccountController").to(AccountController);
+container.bind<ICrudRepo<IAccount>>("AccountRepo").to(AccountRepo);
+container.bind<IAccountService>("AccountService").to(AccountService);
+container.bind<IAccountController>("AccountController").to(AccountController);
+
+// Bind coa related service
+container.bind<ICrudRepo<ICoa>>("CoaRepo").to(CoaRepo)
 
 export { container }

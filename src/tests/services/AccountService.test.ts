@@ -13,7 +13,7 @@ describe('AccountService', () => {
     };
 
     beforeAll(async() => {
-        service = container.get<IAccountService>('IAccountService');
+        service = container.get<IAccountService>('AccountService');
     })
 
     afterEach(() => {

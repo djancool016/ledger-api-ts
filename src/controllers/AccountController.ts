@@ -5,7 +5,7 @@ import { IAccountService } from "../services/IAccountService";
 
 @injectable()
 export class AccountController implements IAccountController{
-    constructor(@inject("IAccountService") private accountService: IAccountService){}
+    constructor(@inject("AccountService") private accountService: IAccountService){}
 
     async create(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {

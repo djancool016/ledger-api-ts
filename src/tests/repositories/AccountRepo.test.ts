@@ -10,7 +10,7 @@ describe('AccountRepo', () => {
     let sampleData: Partial<IAccount>;
 
     beforeAll(async() => {
-        repo = container.get<ICrudRepo<IAccount>>('ICrudRepo');
+        repo = container.get<ICrudRepo<IAccount>>('AccountRepo');
         await db.migrate.latest();
         await db.seed.run();
     })
