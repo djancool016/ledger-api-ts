@@ -7,7 +7,7 @@ import { repositoryTestSuite } from "./RepositoryTestSuite";
 describe('CoaRepo', () => {
     const testSuite = repositoryTestSuite<ICoa>({
         repository: container.get<ICrud<ICoa>>('CoaRepo'),
-        mockInput: () => mockData.coa,
+        mockInput: () => mockData().coa,
         expected: () => mockExpect.coa
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;

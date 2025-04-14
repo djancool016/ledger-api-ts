@@ -4,7 +4,7 @@ import { ICoa } from "../models/ICoa"
 import { ITransType } from "../models/ITransType";
 import { randomNumber, randomString } from "./test-utils";
 
-type mockData = {
+type MockData = {
     account: Partial<IAccount>;
     coa: Partial<ICoa>;
     transType: Partial<ITransType>;
@@ -19,22 +19,24 @@ export const mockUser: UserPayload = {
     exp: Math.floor(Date.now() / 1000).toString()
 }
 
-export const mockData: mockData = {
-    account: {
-        description: randomString(10)
-    },
-    coa: {
-        account_id: 1,
-        code: randomNumber(4),
-        description: randomString(10)
-    },
-    transType: {
-        code: randomString(4).toUpperCase(),
-        description: randomString(10)
+export const mockData = (): MockData => {
+    return {
+        account: {
+            description: randomString(10)
+        },
+        coa: {
+            account_id: 1,
+            code: randomNumber(4),
+            description: randomString(10)
+        },
+        transType: {
+            code: randomString(4).toUpperCase(),
+            description: randomString(10)
+        }
     }
 }
 
-export const mockExpect: mockData = {
+export const mockExpect: MockData = {
     account: {
         id: expect.any(Number),
         description: expect.any(String)

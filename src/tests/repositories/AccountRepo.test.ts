@@ -7,7 +7,7 @@ import { repositoryTestSuite } from "./RepositoryTestSuite";
 describe('AccountRepo', () => {
     const testSuite = repositoryTestSuite<IAccount>({
         repository: container.get<ICrud<IAccount>>('AccountRepo'),
-        mockInput: () => mockData.account,
+        mockInput: () => mockData().account,
         expected: () => mockExpect.account
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;

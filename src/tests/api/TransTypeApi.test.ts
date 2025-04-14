@@ -7,7 +7,7 @@ import { mockData, mockExpect, mockUser } from '../MockData';
 describe('AccountApi', () => {
     const testSuite = new ApiTestSuite<ITransType>({
         mockUser,
-        mockInput: () => mockData.transType,
+        mockInput: () => mockData().transType,
         expected: () => mockExpect.transType
     }).init()
 

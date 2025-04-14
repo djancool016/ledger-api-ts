@@ -1,28 +1,13 @@
 import { IAccount } from '../../models/IAccount'
 import { ApiTestSuite } from './ApiTestSuite'
 import { randomString } from '../test-utils'
+import { mockData, mockExpect, mockUser } from '../MockData'
 
 describe('AccountApi', () => {
     const testSuite = new ApiTestSuite<IAccount>({
-        mockUser: {
-            id: 1,
-            username: 'admin666',
-            roles: ['admin'],
-            permissions: ['super_access'],
-            iat: Math.floor(Date.now() / 1000).toString(),
-            exp: Math.floor(Date.now() / 1000).toString()
-        },
-        mockInput: () => {
-            return {
-                description: randomString(10)
-            }
-        },
-        expected: () => {
-            return {
-                id: expect.any(Number),
-                description: expect.any(String)
-            };
-        }
+        mockUser,
+        mockInput: () => mockData().account,
+        expected: () => mockExpect.account
     }).init()
 
     const path = '/api/account'

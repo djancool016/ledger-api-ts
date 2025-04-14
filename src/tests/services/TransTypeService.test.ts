@@ -10,7 +10,7 @@ describe('AccountService', () => {
     const testSuite = serviceTestSuite<ITransType>({
         service: container.get<ICrud<ITransType>>("TransTypeService"),
         repository: TransTypeService.prototype,
-        mockInput: () => mockData.transType,
+        mockInput: () => mockData().transType,
         expected: () => mockExpect.transType
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;

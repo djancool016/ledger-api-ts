@@ -12,7 +12,7 @@ describe('AccountService', () => {
     const testSuite = serviceTestSuite<ICoa>({
         service: container.get<ICrud<ICoa>>("CoaService"),
         repository: CoaRepo.prototype,
-        mockInput: () => mockData.coa,
+        mockInput: () => mockData().coa,
         expected: () => mockExpect.coa
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;

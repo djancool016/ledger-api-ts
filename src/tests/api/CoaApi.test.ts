@@ -3,32 +3,13 @@ import { randomNumber, randomString } from '../test-utils'
 import { ICoa } from '../../models/ICoa'
 import request from 'supertest';
 import app from '../../app';
+import { mockData, mockExpect, mockUser } from '../MockData';
 
 describe('AccountApi', () => {
     const testSuite = new ApiTestSuite<ICoa>({
-        mockUser: {
-            id: 1,
-            username: 'admin666',
-            roles: ['admin'],
-            permissions: ['super_access'],
-            iat: Math.floor(Date.now() / 1000).toString(),
-            exp: Math.floor(Date.now() / 1000).toString()
-        },
-        mockInput: () => {
-            return {
-                account_id: 1,
-                code: randomNumber(4),
-                description: randomString(10)
-            }
-        },
-        expected: () => {
-            return {
-                id: expect.any(Number),
-                account_id: expect.any(Number),
-                code: expect.any(Number),
-                description: expect.any(String)
-            }
-        }
+        mockUser,
+        mockInput: () => mockData().coa,
+        expected: () => mockExpect.coa
     }).init()
 
     testSuite.addCreateTest = {

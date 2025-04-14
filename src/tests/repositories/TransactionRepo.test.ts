@@ -7,7 +7,7 @@ import { repositoryTestSuite } from "./RepositoryTestSuite";
 describe('AccountRepo', () => {
     const testSuite = repositoryTestSuite<ITransType>({
         repository: container.get<ICrud<ITransType>>('TransTypeRepo'),
-        mockInput: () => mockData.transType,
+        mockInput: () => mockData().transType,
         expected: () => mockExpect.transType
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;

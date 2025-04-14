@@ -10,7 +10,7 @@ describe('AccountService', () => {
     const testSuite = serviceTestSuite<IAccount>({
         service: container.get<ICrud<IAccount>>("AccountService"),
         repository: AccountRepo.prototype,
-        mockInput: () => mockData.account,
+        mockInput: () => mockData().account,
         expected: () => mockExpect.account
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;
