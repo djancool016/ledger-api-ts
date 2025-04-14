@@ -6,26 +6,14 @@ import { UnitTestHelper } from "../UnitTestHelper";
 import { CoaRepo } from "../../repositories/CoaRepo";
 import { ICrud } from "../../types/ICrud";
 import { serviceTestSuite } from "./ServiceTestSuite";
+import { mockData, mockExpect } from "../MockData";
 
 describe('AccountService', () => {
     const testSuite = serviceTestSuite<ICoa>({
         service: container.get<ICrud<ICoa>>("CoaService"),
         repository: CoaRepo.prototype,
-        mockInput: () => {
-            return {
-                account_id: 1,
-                code: randomNumber(4),
-                description: randomString(10)
-            }
-        },
-        expected: () => {
-            return {
-                id: expect.any(Number),
-                account_id: expect.any(Number),
-                code: expect.any(Number),
-                description: expect.any(String)
-            }
-        }
+        mockInput: () => mockData.coa,
+        expected: () => mockExpect.coa
     })
     const testedMethods = ['create', 'readAll', 'readById', 'update', 'delete'] as const;
     testedMethods.forEach((method) => testSuite[method as keyof typeof testSuite]());
