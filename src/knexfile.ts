@@ -27,9 +27,7 @@ const knexConfig: { [key: string] : Knex.Config} = {
     },
     test: {
         client: 'sqlite3',
-        connection: {
-            filename: path.resolve(__dirname, '../test.sqlite3')
-        },
+        connection: ':memory:',
         useNullAsDefault: true,
         pool: { min: 1, max: 1 },
         migrations: { 
