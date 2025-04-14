@@ -3,7 +3,6 @@ import { ITransType } from "../../models/ITransType";
 import { TransTypeService } from "../../services/TransTypeService";
 import { ICrud } from "../../types/ICrud";
 import { mockData, mockExpect } from "../MockData";
-import { randomString } from "../test-utils";
 import { serviceTestSuite } from "./ServiceTestSuite";
 
 describe('AccountService', () => {
