@@ -9,7 +9,6 @@ export const dbConnect = async () => {
     try {
         // Execute a simple query to check the connection
         await db.raw('SELECT 1');
-        console.log(`Database ${knexConfig.client} Connected Successfully!`);
     } catch (error) {
         const err = error as Error;
         throw new Error(`Failed connect to database: ${err.message}`);
