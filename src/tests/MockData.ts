@@ -1,13 +1,15 @@
 import { UserPayload } from "../middlewares/Utils";
 import { IAccount } from "../models/IAccount"
 import { ICoa } from "../models/ICoa"
+import { ITransEntries } from "../models/ITransEntries";
 import { ITransType } from "../models/ITransType";
-import { randomNumber, randomString } from "./test-utils";
+import { randomBoolean, randomNumber, randomString } from "./test-utils";
 
 type MockData = {
     account: Partial<IAccount>;
     coa: Partial<ICoa>;
     transType: Partial<ITransType>;
+    transEntries: Partial<ITransEntries>;
 }
 
 export const mockUser: UserPayload = {
@@ -32,6 +34,11 @@ export const mockData = (): MockData => {
         transType: {
             code: randomString(4).toUpperCase(),
             description: randomString(10)
+        },
+        transEntries: {
+            transaction_type_id: randomNumber(0, 1, 10),
+            coa_id: randomNumber(0, 1, 10),
+            is_credit: randomBoolean()
         }
     }
 }
@@ -51,5 +58,11 @@ export const mockExpect: MockData = {
         id: expect.any(Number),
         code: expect.any(String),
         description: expect.any(String)
+    },
+    transEntries: {
+        id: expect.any(Number),
+        transaction_type_id: expect.any(Number),
+        coa_id: expect.any(Number),
+        is_credit: expect.any(Boolean)
     }
 }

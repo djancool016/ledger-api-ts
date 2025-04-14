@@ -18,10 +18,22 @@ export function createMockResponse(overrides: Partial<Response> = {}): any {
     return res;
 }
 
-export function randomNumber(length: number): number{
-    return Math.floor(Math.random() * (10**length - 10**(length-1))) + 10**(length-1)
-}
+export function randomNumber(length: number, min?: number, max?: number): number {
+    if (typeof min === 'number' && typeof max === 'number') {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+  
+    const lowerBound = 10 ** (length - 1);
+    const upperBound = 10 ** length - 1;
+    return Math.floor(Math.random() * (upperBound - lowerBound + 1)) + lowerBound;
+  }
+  
 
 export function randomString(length: number): string{
     return Array.from({length: length}, () => Math.floor(Math.random() * 36).toString(36)).join('')
 }
+
+export function randomBoolean(): boolean{
+    return Math.random() < 0.5;
+}
+

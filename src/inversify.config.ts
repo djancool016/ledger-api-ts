@@ -15,6 +15,10 @@ import { ITransType } from "./models/ITransType";
 import { TransTypeRepo } from "./repositories/TransTypeRepo";
 import { TransTypeService } from "./services/TransTypeService";
 import { TransTypeController } from "./controllers/TransTypeController";
+import { ITransEntries } from "./models/ITransEntries";
+import { TransEntriesRepo } from "./repositories/TransEntriesRepo";
+import { TransEntriesService } from "./services/TransEntriesService";
+import { TransEntriesController } from "./controllers/TransEntriesController";
 
 const container = new Container();
 
@@ -35,5 +39,10 @@ container.bind<ICrudRequest<ICoa>>("CoaController").to(CoaController);
 container.bind<ICrud<ITransType>>("TransTypeRepo").to(TransTypeRepo);
 container.bind<ICrud<ITransType>>("TransTypeService").to(TransTypeService);
 container.bind<ICrudRequest<ITransType>>("TransTypeController").to(TransTypeController);
+
+// Bind transaction_entries relate service
+container.bind<ICrud<ITransEntries>>("TransEntriesRepo").to(TransEntriesRepo);
+container.bind<ICrud<ITransEntries>>("TransEntriesService").to(TransEntriesService);
+container.bind<ICrudRequest<ITransEntries>>("TransEntriesController").to(TransEntriesController);
 
 export { container }
