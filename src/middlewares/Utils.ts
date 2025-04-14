@@ -29,13 +29,20 @@ export const getUrlFromEnv = (env: string): string => {
 }
 
 export function verifyUserRolesPermissions(allowedRoles: string[], allowedPermissions: string [], payload: UserPayload): boolean {
+    // Convert all roles and permissions to lowercase for case-insensitive comparison
+    allowedRoles = allowedRoles.map(role => role.toLowerCase());
+    allowedPermissions = allowedPermissions.map(permission => permission.toLowerCase());
+    payload.roles = payload.roles.map(role => role.toLowerCase());
+    payload.permissions = payload.permissions.map(permission => permission.toLowerCase());
+
     // Check if roles exist and match
     const hasRole = allowedRoles?.length > 0 && 
         payload.roles.some(role => allowedRoles.includes(role));
 
     // Check if permissions exist and match
     const hasPermission = allowedPermissions?.length > 0 && 
-        payload.permissions.some(permission => allowedPermissions.includes(permission));
+    (payload.permissions.some(permission => allowedPermissions.includes(permission)) ||
+    (allowedPermissions[0] === 'any_roles' && payload.roles.length > 0));
 
     // Access is granted if either roles or permissions match
     if (hasRole || hasPermission) return true;
