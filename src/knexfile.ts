@@ -29,7 +29,12 @@ const knexConfig: { [key: string] : Knex.Config} = {
         client: 'sqlite3',
         connection: ':memory:',
         useNullAsDefault: true,
-        pool: { min: 1, max: 1 },
+        pool: { 
+            min: 1, 
+            max: 1 , 
+            afterCreate: (conn: any, done: any) => {
+                conn.run('PRAGMA foreign_keys = ON', done);
+            }},
         migrations: { 
             directory: path.resolve(__dirname, '../migrations'),
         },
