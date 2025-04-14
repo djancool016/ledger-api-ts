@@ -1,22 +1,28 @@
 import { container } from "../../inversify.config";
-import { IAccount } from "../../models/IAccount"
-import { AccountRepo } from "../../repositories/AccountRepo";
+import { ICoa } from "../../models/ICoa";
+import { BadRequestError, DuplicateError, NotFoundError } from "../../utils/CustomError";
+import { randomNumber, randomString } from "../test-utils";
+import { UnitTestHelper } from "../UnitTestHelper";
+import { CoaRepo } from "../../repositories/CoaRepo";
 import { ICrud } from "../../types/ICrud";
-import { randomString } from "../test-utils";
 import { serviceTestSuite } from "./ServiceTestSuite";
 
 describe('AccountService', () => {
-    const testSuite = serviceTestSuite<IAccount>({
-        service: container.get<ICrud<IAccount>>("AccountService"),
-        repository: AccountRepo.prototype,
+    const testSuite = serviceTestSuite<ICoa>({
+        service: container.get<ICrud<ICoa>>("CoaService"),
+        repository: CoaRepo.prototype,
         mockInput: () => {
             return {
+                account_id: 1,
+                code: randomNumber(4),
                 description: randomString(10)
             }
         },
         expected: () => {
             return {
                 id: expect.any(Number),
+                account_id: expect.any(Number),
+                code: expect.any(Number),
                 description: expect.any(String)
             }
         }

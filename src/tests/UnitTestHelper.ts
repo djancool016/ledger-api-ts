@@ -2,24 +2,31 @@ type UnitTestCase = {
     label?: string;
     method: () => any | Promise<any>;
     expected: any | Error | { matcher: (result: any) => void };
+    setup?: () => void;
 };
 
 
 export function UnitTestHelper(describeText: string, cases: UnitTestCase[]): void {
     describe(describeText, () => {
-        cases.forEach(({ label, method, expected }) => {
+        cases.forEach(({ label, method, expected, setup }) => {
             it(label ?? 'should behave as expected', async () => {
-                const safeMethod = toPromise(() => method());
+                try {
+                    if (setup) setup();
+                    const safeMethod = toPromise(() => method());
 
-                if (expected instanceof Error) {
-                    await expect(safeMethod()).rejects.toThrow(expected);
-                } else {
-                    const result = await safeMethod();
-                    if (typeof expected === 'function') {
-                        expected(result);
+                    if (expected instanceof Error) {
+                        await expect(safeMethod()).rejects.toThrow(expected);
                     } else {
-                        expect(result).toEqual(expected); // exact match
+                        const result = await safeMethod();
+                        if (typeof expected === 'function') {
+                            expected(result);
+                        } else {
+                            expect(result).toEqual(expected); // exact match
+                        }
                     }
+                } catch (err) {
+                    console.error(`Error in test case "${label}":`, err);
+                    throw err; // rethrow to let Jest fail the test properly
                 }
             });
         });
