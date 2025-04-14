@@ -22,7 +22,7 @@ export async function seed(knex: Knex): Promise<void> {
         { id: 14, account_id: 5, code: '5010', description: 'Bunga Piutang KSM' },
         { id: 15, account_id: 5, code: '5020', description: 'Bunga Bank UPK' },
         { id: 16, account_id: 5, code: '5030', description: 'Pemasukan Lain' },
-        { id: 17, account_id: 6, code: '6010', description: 'Biaya Operasional BKM' },
+        { id: 17, account_id: 5, code: '6010', description: 'Biaya Operasional BKM' },
       ]
     );
 };
