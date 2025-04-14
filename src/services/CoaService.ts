@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
-import { IAccount } from "../models/IAccount";
+import { ICoa } from "../models/ICoa";
 import { Service } from "./Service";
 import { ICrud } from "../types/ICrud";
 
 @injectable()
-export class AccountService extends Service<IAccount> {
-    constructor(@inject("AccountRepo") repo: ICrud<IAccount>){
+export class CoaService extends Service<ICoa> {
+    constructor(@inject("CoaRepo") repo: ICrud<ICoa>){
         super(repo)
     }
 }

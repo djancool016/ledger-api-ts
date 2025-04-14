@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
-import { CrudRepository } from "./CrudRepo";
+import { Repository } from "./Repository";
 import { Knex } from "knex";
 import { ICoa } from "../models/ICoa";
 
 @injectable()
-export class CoaRepo extends CrudRepository<ICoa> {
+export class CoaRepo extends Repository<ICoa> {
     constructor(@inject('Knex') database: Knex){
         super('coa', database);
     }

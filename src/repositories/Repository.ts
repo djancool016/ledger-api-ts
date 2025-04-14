@@ -1,9 +1,9 @@
+import db from "../db";
 import { Knex } from "knex";
 import { AppError, BadRequestError, databaseErrorHandler, NotFoundError } from "../utils/CustomError";
-import db from "../db";
-import { ICrudRepo } from "./ICrudRepo";
+import { ICrud } from "../types/ICrud";
 
-abstract class SqliteCrudRepo <T> implements ICrudRepo <T> {
+abstract class SqliteCrudRepo <T> implements ICrud<T> {
 
     protected tableName: string;
     protected db: Knex;
@@ -21,17 +21,20 @@ abstract class SqliteCrudRepo <T> implements ICrudRepo <T> {
             databaseErrorHandler(error)
         }
     }
-    async readAll(): Promise <T[]> {
+    async readAll(): Promise <Partial<T>[]> {
         try {
-            return this.db(this.tableName).select("*");
+            const result = await this.db(this.tableName).select("*");
+            if(!result || result.length === 0) throw new NotFoundError
+            return result
         } catch (error) {
             databaseErrorHandler(error)
         }
     }
-    async readById(id: number): Promise <T | null> {
+    async readById(id: number): Promise <Partial<T>> {
         try {
             const result = await this.db(this.tableName).where({id}).first();
-            return result ?? null; // normalize undefined to null
+            if(!result) throw new NotFoundError
+            return result
         } catch (error) {
             databaseErrorHandler(error)
         }
@@ -71,7 +74,7 @@ abstract class PostgreCrudRepo<T> extends SqliteCrudRepo<T> {
     }
 }
 
-export const CrudRepository = (() => {
+export const Repository = (() => {
     const dbClient = db.client.config.client
 
     switch (dbClient) {
